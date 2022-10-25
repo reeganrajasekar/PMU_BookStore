@@ -1,12 +1,13 @@
 import {View , Text , Switch ,ScrollView,StyleSheet, Image ,SafeAreaView , TextInput, TouchableOpacity} from 'react-native'
 import Logo from '../assets/icon.png'
 import React from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Student_Login({navigation}) {
-  const [email, setEmail] = React.useState(null);
-  const [password, setPassword] = React.useState(null);
+export default function Login({navigation}) {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [staff, setStaff] = React.useState(false);
-
+  
     return (
       <SafeAreaView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
@@ -27,6 +28,7 @@ export default function Student_Login({navigation}) {
           <TextInput
             onChangeText={setPassword}
             value={password}
+            secureTextEntry={true}
             style={{marginBottom:15,width:300,height:50,borderWidth:1,borderRadius:30,borderColor:'#042744',backgroundColor:'#eee',fontSize:22,textAlign:'left',paddingLeft:15,}}
             placeholder="Password"
           />
@@ -40,7 +42,71 @@ export default function Student_Login({navigation}) {
             <Text style={{fontSize:16}}>login as a Staff</Text>
           </View>
           <View style = {styles.container}>
-            <TouchableOpacity onPress={()=> {navigation.navigate('Home')}}>
+            <TouchableOpacity onPress={()=> {
+               if(email!="" && password!=""){
+                let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+                if (reg.test(email) === false) {
+                  alert("Email is Not Correct");
+                }
+                else {
+                  if(staff){
+                    fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/staff/', {
+                      method: 'POST',
+                      body: JSON.stringify({
+                        staff_email:email,
+                        staff_password:password
+                      }),
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
+                    })
+                      .then((response) => response.json())
+                      .then(async (data) => {
+                        if(data.code=="Ok"){
+                          const jsonValue = JSON.stringify(data.staff)
+                          await AsyncStorage.setItem('staff', jsonValue)
+                          await AsyncStorage.setItem('login', "staff")
+                          navigation.navigate("Staff_Home")
+                        }else{
+                          alert(data.code);
+                        }
+                      })
+                      .catch((error) => {
+                        alert(JSON.stringify(error));
+                        console.error(error);
+                      });
+                  }else{
+                    fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/', {
+                      method: 'POST',
+                      body: JSON.stringify({
+                        student_email:email,
+                        student_password:password
+                      }),
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
+                    })
+                      .then((response) => response.json())
+                      .then(async (data) => {
+                        if(data.code=="Ok"){
+                          const jsonValue = JSON.stringify(data.student)
+                          await AsyncStorage.setItem('student', jsonValue)
+                          await AsyncStorage.setItem('login', "student")
+                          navigation.navigate("Home")
+                        }else{
+                          alert(data.code);
+                        }
+                      })
+                      .catch((error) => {
+                        alert(JSON.stringify(error));
+                        console.error(error);
+                      });
+                  }
+                }
+              }else{
+                alert("Enter all details!")
+              }
+            }}>
                 <Text style = {styles.text}>
                   Login
                 </Text>

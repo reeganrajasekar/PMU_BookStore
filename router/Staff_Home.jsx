@@ -13,19 +13,17 @@ export default function Home({navigation}) {
   const [person_id,setId] = useState("");
     useEffect(() => {
       async function mine(){
-        const jsonValue = await AsyncStorage.getItem('student')
-        let list = JSON.parse(jsonValue)
-        fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/books?dept='+list[0].dept)
+        fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/staff/books')
           .then((response) => response.json())
           .then((data) => {setData(data)})
         .catch((error) => {
           alert(JSON.stringify(error));
           console.error(error);
         });
-        const student = await AsyncStorage.getItem('student')
-        const student_list = JSON.parse(student)
-        setName(student_list[0].student_name)
-        setId(student_list[0].student_id)
+        const staff = await AsyncStorage.getItem('staff')
+        const staff_list = JSON.parse(staff)
+        setName(staff_list[0].staff_name)
+        setId(staff_list[0].staff_id)
       }
       mine();
     },[]);
@@ -38,9 +36,7 @@ export default function Home({navigation}) {
             placeholder="Search here"
             iconColor='#fff'
             onChangeText={async (text) => {
-              const jsonValue = await AsyncStorage.getItem('student')
-              let list = JSON.parse(jsonValue)
-              fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/books?dept='+list[0].dept+'&book_name='+text)
+              fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/staff/books?book_name='+text)
                 .then((response) => response.json())
                 .then((data) => {setData(data)})
               .catch((error) => {
@@ -50,9 +46,7 @@ export default function Home({navigation}) {
             }}
 
             onClearPress={async ()=>{
-              const jsonValue = await AsyncStorage.getItem('student')
-              let list = JSON.parse(jsonValue)
-              fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/books?dept='+list[0].dept)
+              fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/staff/books')
                 .then((response) => response.json())
                 .then((data) => {setData(data)})
               .catch((error) => {
@@ -76,11 +70,11 @@ export default function Home({navigation}) {
                   {
                     text: "Request",
                     onPress: async () => {
-                      fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/request', {
+                      fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/staff/request', {
                         method: 'POST',
                         body: JSON.stringify({
-                          student_id : person_id,
-                          student_name: person_name,
+                          staff_id : person_id,
+                          staff_name: person_name,
                           book_id: item._id,
                           book_name : item.book_name,
                         }),
@@ -91,7 +85,7 @@ export default function Home({navigation}) {
                       .then((response) => response.json())
                       .then((data) => {
                         if(data.code=="Requested"){
-                          navigation.navigate("Book")
+                          navigation.navigate("Staff_Book")
                         }else{
                           alert(data.code)
                         }
@@ -123,19 +117,19 @@ export default function Home({navigation}) {
         </ScrollView>
         <View style={{position: 'absolute', left: 0, right: 0, bottom: 0,height:60,backgroundColor:"#F5DBCC",flex:1,flexDirection:'row',justifyContent:'space-around',alignItems:'center'}}>
           
-          <TouchableOpacity onPress={()=> {navigation.navigate('Home')}}>
+          <TouchableOpacity onPress={()=> {navigation.navigate('Staff_Home')}}>
             <Image
               style={{width:30,height:30}}
               source={home}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=> {navigation.navigate('Book')}}>
+          <TouchableOpacity onPress={()=> {navigation.navigate('Staff_Book')}}>
             <Image
               style={{width:30,height:30}}
               source={collection}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=> {navigation.navigate('Profile')}}>
+          <TouchableOpacity onPress={()=> {navigation.navigate('Staff_Profile')}}>
             <Image
               style={{width:30,height:30}}
               source={profile}

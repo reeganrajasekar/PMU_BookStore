@@ -15,12 +15,12 @@ export default function Profile({navigation}) {
   const [id,setId] = useState("");
     useEffect(() => {
       async function mine(){
-        const student = await AsyncStorage.getItem('student')
+        const student = await AsyncStorage.getItem('staff')
         const student_list = JSON.parse(student)
-        setName(student_list[0].student_name)
+        setName(student_list[0].staff_name)
         setDept(student_list[0].dept)
-        setId(student_list[0].student_id)
-        setEmail(student_list[0].student_email)
+        setId(student_list[0].staff_id)
+        setEmail(student_list[0].staff_email)
       }
       mine();
     },[]);
@@ -60,19 +60,19 @@ export default function Profile({navigation}) {
         </ScrollView>
         <View style={{position: 'absolute', left: 0, right: 0, bottom: 0,height:60,backgroundColor:"#F5DBCC",flex:1,flexDirection:'row',justifyContent:'space-around',alignItems:'center'}}>
           
-          <TouchableOpacity onPress={()=> {navigation.navigate('Home')}}>
+          <TouchableOpacity onPress={()=> {navigation.navigate('Staff_Home')}}>
             <Image
               style={{width:30,height:30}}
               source={home}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=> {navigation.navigate('Book')}}>
+          <TouchableOpacity onPress={()=> {navigation.navigate('Staff_Book')}}>
             <Image
               style={{width:30,height:30}}
               source={collection}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=> {navigation.navigate('Profile')}}>
+          <TouchableOpacity onPress={()=> {navigation.navigate('Staff_Profile')}}>
             <Image
               style={{width:30,height:30}}
               source={profile}

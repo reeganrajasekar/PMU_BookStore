@@ -14,9 +14,9 @@ export default function Book({navigation}) {
 
   useEffect(() => {
     async function mine(){
-      const jsonValue = await AsyncStorage.getItem('student')
+      const jsonValue = await AsyncStorage.getItem('staff')
       let list = JSON.parse(jsonValue)
-      fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/lib?student_id='+list[0].student_id)
+      fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/staff/lib?staff_id='+list[0].staff_id)
         .then((response) => response.json())
         .then((i) => {
           setData([])
@@ -72,19 +72,19 @@ export default function Book({navigation}) {
         </ScrollView>
         <View style={{position: 'absolute', left: 0, right: 0, bottom: 0,height:60,backgroundColor:"#F5DBCC",flex:1,flexDirection:'row',justifyContent:'space-around',alignItems:'center'}}>
           
-          <TouchableOpacity onPress={()=> {navigation.navigate('Home')}}>
+          <TouchableOpacity onPress={()=> {navigation.navigate('Staff_Home')}}>
             <Image
               style={{width:30,height:30}}
               source={home}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=> {navigation.navigate('Book')}}>
+          <TouchableOpacity onPress={()=> {navigation.navigate('Staff_Book')}}>
             <Image
               style={{width:30,height:30}}
               source={collection}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=> {navigation.navigate('Profile')}}>
+          <TouchableOpacity onPress={()=> {navigation.navigate('Staff_Profile')}}>
             <Image
               style={{width:30,height:30}}
               source={profile}

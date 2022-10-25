@@ -2,19 +2,33 @@ import {View , Text ,ScrollView, Switch ,StyleSheet, Image ,SafeAreaView , TextI
 import Logo from '../assets/icon.png'
 import React from "react";
 import SelectList from 'react-native-dropdown-select-list'
+const axios = require('axios').default;
 
 export default function Student_Login({navigation}) {
-  const [email, setEmail] = React.useState(null);
-  const [name, setName] = React.useState(null);
-  const [id, setId] = React.useState(null);
-  const [dept, setDept] = React.useState(null);
-  const [password, setPassword] = React.useState(null);
+  const [email, setEmail] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [id, setId] = React.useState();
+  const [dept, setDept] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [staff, setStaff] = React.useState(false);
   const data = [
-    {value:'Jammu & Kashmir'},
-    {value:'Jammu & Kashmir'},
-    {value:'Jammu & Kashmir'},
-    {value:'Jammu & Kashmir'},
+    {value:'Civil Engineering'},
+    {value:'Electrical Engineering'},
+    {value:'Mechanical Engineering'},
+    {value:'Computer Engineering'},
+    {value:'Computer Science'},
+    {value:'Information Technology'},
+    {value:'Software Engineering'},
+    {value:'Accounting'},
+    {value:'Business Administration'},
+    {value:'Finance'},
+    {value:'Human Resource Management'},
+    {value:'Management Information Systems'},
+    {value:'Architecture (ARCH)'},
+    {value:'Interior Design (IDES)'},
+    {value:'Graphic Design (GDES)'},
+    {value:'Master of Science in Education and Human Development'},
+    {value:'College of LAW'},
   ];
     return (
       <SafeAreaView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
@@ -30,7 +44,7 @@ export default function Student_Login({navigation}) {
             onChangeText={setName}
             value={name}
             style={{marginBottom:15,width:300,height:50,borderWidth:1,borderRadius:30,borderColor:'#042744',backgroundColor:'#eee',fontSize:22,textAlign:'left',paddingLeft:15,paddingRight:15,}}
-            placeholder="Username"
+            placeholder="Name"
           />
           <TextInput
             onChangeText={setId}
@@ -49,12 +63,14 @@ export default function Student_Login({navigation}) {
           <TextInput
             onChangeText={setPassword}
             value={password}
+            secureTextEntry={true}
             style={{marginBottom:15,width:300,height:50,borderWidth:1,borderRadius:30,borderColor:'#042744',backgroundColor:'#eee',fontSize:22,textAlign:'left',paddingLeft:15,paddingRight:15}}
             placeholder="Password"
           />
           <SelectList 
             setSelected={setDept} 
             data={data}
+            value={dept}
             boxStyles={{marginBottom:15,width:300,height:50,borderWidth:1,borderRadius:30,borderColor:'#042744',backgroundColor:'#eee',fontSize:22,textAlign:'left',paddingLeft:15,paddingRight:15,alignItems:'center'}}                                                                               
           /> 
           <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',paddingBottom:10}}>
@@ -67,7 +83,65 @@ export default function Student_Login({navigation}) {
             <Text style={{fontSize:16}}>Register as a Staff</Text>
           </View>
           <View style = {styles.container}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>{
+              if(email!="" && name!="" && id!="" && password!="" && dept!=""){
+                let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+                if (reg.test(email) === false) {
+                  alert("Email is Not Correct");
+                }
+                else {
+                  if(staff){
+                    fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/staff/register', {
+                      method: 'POST',
+                      body: JSON.stringify({
+                        staff_id:id,
+                        staff_name:name,
+                        staff_email:email,
+                        staff_password:password,
+                        dept:dept
+                      }),
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
+                    })
+                      .then((response) => response.json())
+                      .then((responseJson) => {
+                        alert(responseJson.code);
+                        navigation.navigate("Login")
+                      })
+                      .catch((error) => {
+                        alert(JSON.stringify(error));
+                        console.error(error);
+                      });
+                  }else{
+                    fetch('http://ec2-65-2-181-127.ap-south-1.compute.amazonaws.com/api/register', {
+                      method: 'POST',
+                      body: JSON.stringify({
+                        student_id:id,
+                        student_name:name,
+                        student_email:email,
+                        student_password:password,
+                        dept:dept
+                      }),
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
+                    })
+                      .then((response) => response.json())
+                      .then((responseJson) => {
+                        alert(responseJson.code);
+                        navigation.navigate("Login")
+                      })
+                      .catch((error) => {
+                        alert(JSON.stringify(error));
+                        console.error(error);
+                      });
+                  }
+                }
+              }else{
+                alert("Enter all details!")
+              }
+            }}>
                 <Text style = {styles.text}>
                   Register
                 </Text>
