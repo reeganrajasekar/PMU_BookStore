@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "PMU Student",
-    "slug": "PMU Student",
+    "name": "PMU BookStore",
+    "slug": "PMU BookStore",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

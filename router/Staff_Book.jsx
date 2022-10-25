@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 
 
-export default function Book({navigation}) {
+export default function Staff_Book({navigation}) {
   const [data,setData] = useState([]);
   const [have,setHave] = useState([]);
   const [old,setOld] = useState([]);
@@ -43,7 +43,9 @@ export default function Book({navigation}) {
     return (
       <View style={{flex: 1,alignItems:'center'}}>
         <ScrollView style={{marginTop:30,width:'100%'}}>
-          {(data[0])?<Text style={{paddingTop:20,paddingLeft:15,fontSize:22,fontWeight:'bold',color:'#F67327'}}>Waiting List:</Text>:""}
+          {(!have[0] && !data[0] && !old[0])?<Text  style={{paddingTop:50,textAlign:'center',fontSize:22,fontWeight:'bold',color:'#F5DBCC'}}>Nothing Found !</Text>:""}
+
+          {(data[0])?<Text style={{paddingTop:20,paddingLeft:15,fontSize:22,fontWeight:'bold',color:'#'}}>Waiting List:</Text>:""}
           {data.map((i)=>
             <TouchableOpacity key={i._id} style={{flex:1,padding:10,justifyContent:'space-evenly',marginLeft:10,marginRight:10,width:"auto",height:'auto',borderWidth:2,marginTop:10,borderRadius:20,borderColor:'#F5DBCC',backgroundColor:'#fff'}}>
               <Text style={{color:'#aaa',fontSize:20}}>Book    :<Text style={{color:'#042744'}}>{i.book_name}</Text></Text>

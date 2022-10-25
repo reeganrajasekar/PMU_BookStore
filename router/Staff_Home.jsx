@@ -7,7 +7,7 @@ import { useState,useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-export default function Home({navigation}) {
+export default function Staff_Home({navigation}) {
   const [data,setData] = useState([]);
   const [person_name,setName] = useState("");
   const [person_id,setId] = useState("");
@@ -55,6 +55,8 @@ export default function Home({navigation}) {
               });
             }}
           />
+          {(!data[0])?<Text  style={{paddingTop:50,textAlign:'center',fontSize:22,fontWeight:'bold',color:'#F5DBCC'}}>Nothing Found !</Text>:""}
+
         {
           data.map((item)=>
 

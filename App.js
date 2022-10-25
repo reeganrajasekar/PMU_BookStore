@@ -18,69 +18,21 @@ const Stack = createNativeStackNavigator();
 
 
 function App() {
-  const [lay,setLay] = React.useState("")
-  React.useEffect(() => {
-    async function mine(){
-      const jsonValue = await AsyncStorage.getItem('login')
-      if(jsonValue=="student"){
-        setLay("student")
-      }else if(jsonValue=="staff"){
-        setLay("staff")
-      }else{
-        setLay("new")
-      }
-    }
-    mine();
-  });
-  if(lay=="student"){
     return (
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown:false }}/>
+          <Stack.Screen name="Register" component={Register} options={{ headerShown:false }}/>
           <Stack.Screen name="Home" component={Home} options={{ headerShown:false }}/>
           <Stack.Screen name="Book" component={Book} options={{ headerShown:false }}/>
           <Stack.Screen name="Profile" component={Profile} options={{ headerShown:false }}/>
           <Stack.Screen name="Staff_Home" component={Staff_Home} options={{ headerShown:false }}/>
           <Stack.Screen name="Staff_Book" component={Staff_Book} options={{ headerShown:false }}/>
           <Stack.Screen name="Staff_Profile" component={Staff_Profile} options={{ headerShown:false }}/>
-          <Stack.Screen name="Login" component={Login} options={{ headerShown:false }}/>
-          <Stack.Screen name="Register" component={Register} options={{ headerShown:false }}/>
         </Stack.Navigator>
         <StatusBar style="light" backgroundColor='#F67327'/>
       </NavigationContainer>
     );
-  }else if(lay=="staff"){
-    return (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Staff_Home" component={Staff_Home} options={{ headerShown:false }}/>
-          <Stack.Screen name="Staff_Book" component={Staff_Book} options={{ headerShown:false }}/>
-          <Stack.Screen name="Staff_Profile" component={Staff_Profile} options={{ headerShown:false }}/>
-          <Stack.Screen name="Home" component={Home} options={{ headerShown:false }}/>
-          <Stack.Screen name="Book" component={Book} options={{ headerShown:false }}/>
-          <Stack.Screen name="Profile" component={Profile} options={{ headerShown:false }}/>
-          <Stack.Screen name="Login" component={Login} options={{ headerShown:false }}/>
-          <Stack.Screen name="Register" component={Register} options={{ headerShown:false }}/>
-        </Stack.Navigator>
-        <StatusBar style="light" backgroundColor='#F67327'/>
-      </NavigationContainer>
-    );
-  }else{
-    return (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} options={{ headerShown:false }}/>
-          <Stack.Screen name="Book" component={Book} options={{ headerShown:false }}/>
-          <Stack.Screen name="Profile" component={Profile} options={{ headerShown:false }}/>
-          <Stack.Screen name="Staff_Home" component={Staff_Home} options={{ headerShown:false }}/>
-          <Stack.Screen name="Staff_Book" component={Staff_Book} options={{ headerShown:false }}/>
-          <Stack.Screen name="Staff_Profile" component={Staff_Profile} options={{ headerShown:false }}/>
-          <Stack.Screen name="Login" component={Login} options={{ headerShown:false }}/>
-          <Stack.Screen name="Register" component={Register} options={{ headerShown:false }}/>
-        </Stack.Navigator>
-        <StatusBar style="light" backgroundColor='#F67327'/>
-      </NavigationContainer>
-    );
-  }
 }
 
 export default App;

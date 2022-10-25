@@ -45,9 +45,9 @@ export default function Profile({navigation}) {
             </View>
             <View style = {styles.container}>
             <TouchableOpacity onPress={async ()=> {
-              await AsyncStorage.setItem('student', "")
-              await AsyncStorage.setItem('staff', "")
-              await AsyncStorage.setItem('login', "")
+              await AsyncStorage.removeItem('student')
+              await AsyncStorage.removeItem('staff')
+              await AsyncStorage.removeItem('login')
               navigation.navigate('Login')
               
               }}>

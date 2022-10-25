@@ -61,6 +61,8 @@ export default function Home({navigation}) {
               });
             }}
           />
+          {(!data[0])?<Text  style={{paddingTop:50,textAlign:'center',fontSize:22,fontWeight:'bold',color:'#F5DBCC'}}>Nothing Found !</Text>:""}
+
         {
           data.map((item)=>
 

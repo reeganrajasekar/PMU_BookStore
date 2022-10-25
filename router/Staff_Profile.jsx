@@ -8,7 +8,7 @@ import { useState,useEffect } from 'react';
 
 
 
-export default function Profile({navigation}) {
+export default function Staff_Profile({navigation}) {
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
   const [dept,setDept] = useState("");
@@ -45,9 +45,9 @@ export default function Profile({navigation}) {
             </View>
             <View style = {styles.container}>
             <TouchableOpacity onPress={async ()=> {
-              await AsyncStorage.setItem('student', "")
-              await AsyncStorage.setItem('staff', "")
-              await AsyncStorage.setItem('login', "")
+              await AsyncStorage.removeItem('student')
+              await AsyncStorage.removeItem('staff')
+              await AsyncStorage.removeItem('login')
               navigation.navigate('Login')
               
               }}>

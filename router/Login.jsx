@@ -7,6 +7,19 @@ export default function Login({navigation}) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [staff, setStaff] = React.useState(false);
+  const [lay,setLay] = React.useState("")
+  React.useEffect(() => {
+    async function mine(){
+      const jsonValue = await AsyncStorage.getItem('login')
+      if(jsonValue=="student"){
+        navigation.navigate("Home")
+      }else if(jsonValue=="staff"){
+        navigation.navigate("Staff_Home")
+      }else{
+      }
+    }
+    mine();
+  } , []);
   
     return (
       <SafeAreaView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
